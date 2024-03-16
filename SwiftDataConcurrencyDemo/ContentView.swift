@@ -12,7 +12,7 @@ import SwiftUI
 struct ContentView: View {
   @Environment(\.modelContext) private var modelContext
   @Environment(\.createDataHandler) private var createDataHandler
-  @Query private var items: [Item]
+  @Query(sort: \Item.createTimestamp, animation: .smooth) private var items: [Item]
 
   var body: some View {
     NavigationSplitView {

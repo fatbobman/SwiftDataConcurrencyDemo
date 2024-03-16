@@ -15,21 +15,23 @@ struct ItemView: View {
   var body: some View {
     VStack {
       Text("\(item.timestamp.timeIntervalSince1970)")
-      Button("Update Timestamp") {
-        let id = item.id
-        let date = Date.now
-        Task { @MainActor in
-          if let dataHandler = await createDataHandler() {
-            try? await dataHandler.updateItem(id: id, timestamp: date)
+      HStack {
+        Button("Update Timestamp") {
+          let id = item.id
+          let date = Date.now
+          Task { @MainActor in
+            if let dataHandler = await createDataHandler() {
+              try? await dataHandler.updateItem(id: id, timestamp: date)
+            }
           }
         }
-      }
-      Button("Delete") {
-        let id = item.id
-        let createDataHandler = createDataHandler
-        Task.detached {
-          if let dataHandler = await createDataHandler() {
-            try? await dataHandler.deleteItem(id: id)
+        Button("Delete") {
+          let id = item.id
+          let createDataHandler = createDataHandler
+          Task.detached {
+            if let dataHandler = await createDataHandler() {
+              try? await dataHandler.deleteItem(id: id)
+            }
           }
         }
       }
