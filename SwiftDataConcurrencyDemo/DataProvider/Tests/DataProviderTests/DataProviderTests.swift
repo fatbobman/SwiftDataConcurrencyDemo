@@ -6,7 +6,7 @@ final class DataProviderTests: XCTestCase {
   @MainActor
   func testNewItem() async throws {
     // Arrange
-    let container = try ContainerForTest.temp("testNewItem")
+    let container = try ContainerForTest.temp(#function)
     let hander = DataHandler(modelContainer: container)
 
     // ACT
@@ -30,7 +30,7 @@ final class DataProviderTests: XCTestCase {
   @MainActor
   func testDeleteItem() async throws {
     // Arrange
-    let container = try ContainerForTest.temp("testDeleteItem")
+    let container = try ContainerForTest.temp(#function)
     let hander = DataHandler(modelContainer: container)
     let date = Date(timeIntervalSince1970: 0)
     let itemID = try await hander.newItem(date: date)
@@ -48,7 +48,7 @@ final class DataProviderTests: XCTestCase {
   @MainActor
   func testUpdateItem() async throws {
     // Arrange
-    let container = try ContainerForTest.temp("testUpdateItem")
+    let container = try ContainerForTest.temp(#function)
     let hander = DataHandler(modelContainer: container)
     let date = Date(timeIntervalSince1970: 0)
     let itemID = try await hander.newItem(date: date)

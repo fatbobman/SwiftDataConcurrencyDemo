@@ -10,6 +10,13 @@ import SwiftData
 
 @ModelActor
 public actor DataHandler {
+  @MainActor
+  public init(modelContainer: ModelContainer, mainActor _: Bool) {
+    let modelContext = modelContainer.mainContext
+    modelExecutor = DefaultSerialModelExecutor(modelContext: modelContext)
+    self.modelContainer = modelContainer
+  }
+
   @discardableResult
   public func newItem(date: Date) throws -> PersistentIdentifier {
     let item = Item(timestamp: date)

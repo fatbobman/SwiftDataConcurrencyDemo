@@ -18,7 +18,10 @@ struct ContentView: View {
     NavigationSplitView {
       List {
         ForEach(items) { item in
-          ItemView(item: item)
+          VStack {
+            Text("\(item.timestamp.timeIntervalSince1970)")
+            ItemView(item: item)
+          }
         }
       }
       .toolbar {

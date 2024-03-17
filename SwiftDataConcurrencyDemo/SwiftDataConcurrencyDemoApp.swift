@@ -17,6 +17,7 @@ struct SwiftDataConcurrencyDemoApp: App {
     WindowGroup {
       ContentView()
         .environment(\.createDataHandler, dataProvider.dataHandlerCreator())
+        .environment(\.createDataHandlerWithMainContext, dataProvider.dataHandlerWithMainContextCreator())
     }
     .modelContainer(dataProvider.sharedModelContainer)
   }
