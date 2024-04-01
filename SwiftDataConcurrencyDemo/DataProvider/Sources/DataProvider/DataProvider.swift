@@ -10,6 +10,7 @@ import SwiftUI
 
 public final class DataProvider: Sendable {
   public static let shared = DataProvider()
+  private init() {}
 
   public let sharedModelContainer: ModelContainer = {
     let schema = Schema(CurrentScheme.models)
@@ -31,8 +32,6 @@ public final class DataProvider: Sendable {
       fatalError("Could not create ModelContainer: \(error)")
     }
   }()
-
-  public init() {}
 
   public func dataHandlerCreator(preview: Bool = false) -> @Sendable () async -> DataHandler {
     let container = preview ? previewContainer : sharedModelContainer

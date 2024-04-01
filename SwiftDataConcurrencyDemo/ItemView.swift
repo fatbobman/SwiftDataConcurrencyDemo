@@ -51,29 +51,16 @@ struct ItemView: View {
   }
 }
 
-#if DEBUG
-  struct ItemViewPreviewContainer: View {
-    @Environment(\.createDataHandler) var createDataHandler
-    @Query var items: [Item]
-    var body: some View {
-      VStack {
-        if let item = items.first {
-          ItemView(item: item)
-        }
-      }
-      .task {
-        if let dataHander = await createDataHandler() {
-          let _ = try? await dataHander.newItem(date: .now)
-        }
-      }
-    }
-  }
-#endif
-
 #Preview {
-  let dataProvider = DataProvider()
-  return ItemViewPreviewContainer()
-    .environment(\.createDataHandler, dataProvider.dataHandlerCreator(preview: true))
-    .environment(\.createDataHandlerWithMainContext, dataProvider.dataHandlerWithMainContextCreator(preview: true))
-    .modelContainer(dataProvider.previewContainer)
+  let provider: DataProvider = {
+    let provider = DataProvider.shared
+    Task {
+      let dataHander = await provider.dataHandlerCreator(preview: true)()
+      let _ = try? await dataHander.newItem(date: .now)
+    }
+    return provider
+  }()
+  return DataProviderPreview(provider: provider) { provider, item in
+    ItemView(item: item)
+  }
 }

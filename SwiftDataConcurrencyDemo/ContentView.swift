@@ -45,7 +45,11 @@ struct ContentView: View {
 }
 
 #Preview {
-  ContentView()
-    .environment(\.createDataHandler, DataProvider.shared.dataHandlerCreator(preview: true))
-    .modelContainer(DataProvider.shared.previewContainer)
+  DataProviderContainerPreview(provider: DataProvider.shared) { provider in
+    ContentView()
+      .task {
+        let dataHander = await provider.dataHandlerCreator(preview: true)()
+        let _ = try? await dataHander.newItem(date: .now)
+      }
+  }
 }
